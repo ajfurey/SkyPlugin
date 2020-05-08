@@ -1,30 +1,26 @@
-/*=================================================
-* For parts referencing UE4 code, the following copyright applies:
-* Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
-*
-* Feel free to use this software in any commercial/free game.
-* Selling this as a plugin/item, in whole or part, is not allowed.
-* See LICENSE for full licensing details.
-* =================================================*/
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
+#include "CoreMinimal.h"
+#include "Modules/ModuleManager.h"
 #include "SkyManager.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(SkyPlugin, Log, All);
 
-class SKYPLUGIN_API FSkyPlugin : public IModuleInterface
+class FSkyPlugin : public IModuleInterface
 {
 public:
+
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-	void EnforceSingletonActor(UWorld * World);
-	ASkyManager * SpawnSingletonActor(UWorld * World);
-	void InitSingletonActor(UWorld * World, const UWorld::InitializationValues IVS);
+	void EnforceSingletonActor(UWorld* World);
+	ASkyManager* SpawnSingletonActor(UWorld* World);
+	void InitSingletonActor(UWorld* World, const UWorld::InitializationValues IVS);
 
-	ASkyManager * GetSingletonActor(UObject* WorldContextObject);
+	ASkyManager* GetSingletonActor(UObject* WorldContextObject);
 
 	/**
 	* Singleton-like access to this module's interface.  This is just for convenience!
@@ -47,4 +43,3 @@ public:
 		return FModuleManager::Get().IsModuleLoaded("SkyPlugin");
 	}
 };
-

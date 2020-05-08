@@ -1,16 +1,10 @@
-/*=================================================
-* For parts referencing UE4 code, the following copyright applies:
-* Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
-*
-* Feel free to use this software in any commercial/free game.
-* Selling this as a plugin/item, in whole or part, is not allowed.
-* See LICENSE for full licensing details.
-* =================================================*/
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "SkyPlugin.h"
 #include "EngineUtils.h"
 #include "Editor/EditorEngine.h"
 
+#define LOCTEXT_NAMESPACE "FSkyPlugin"
 DEFINE_LOG_CATEGORY(SkyPlugin);
 
 void FSkyPlugin::StartupModule()
@@ -31,7 +25,7 @@ void FSkyPlugin::ShutdownModule()
 	FWorldDelegates::OnPostWorldInitialization.RemoveAll(this);
 }
 
-void FSkyPlugin::EnforceSingletonActor(UWorld * World)
+void FSkyPlugin::EnforceSingletonActor(UWorld* World)
 {
 	//Make sure there is only one instance of this actor!
 	//Actor is not blueprintable, but users will find other ways!!
@@ -49,7 +43,7 @@ void FSkyPlugin::EnforceSingletonActor(UWorld * World)
 	}
 }
 
-ASkyManager * FSkyPlugin::SpawnSingletonActor(UWorld * World)
+ASkyManager* FSkyPlugin::SpawnSingletonActor(UWorld* World)
 {
 	FVector location = FVector(0, 0, 0);
 	FRotator rotate = FRotator(0, 0, 0);
@@ -57,7 +51,7 @@ ASkyManager * FSkyPlugin::SpawnSingletonActor(UWorld * World)
 	return World->SpawnActor<ASkyManager>(ASkyManager::StaticClass(), location, rotate, SpawnInfo);
 }
 
-void FSkyPlugin::InitSingletonActor(UWorld * World, const UWorld::InitializationValues IVS)
+void FSkyPlugin::InitSingletonActor(UWorld* World, const UWorld::InitializationValues IVS)
 {
 	//Make sure we are in the correct UWorld!
 	if (World->WorldType == EWorldType::Game || EWorldType::PIE || EWorldType::GamePreview || EWorldType::GameRPC || EWorldType::Editor)
@@ -79,7 +73,7 @@ void FSkyPlugin::InitSingletonActor(UWorld * World, const UWorld::Initialization
 	}
 }
 
-ASkyManager * FSkyPlugin::GetSingletonActor(UObject* WorldContextObject)
+ASkyManager* FSkyPlugin::GetSingletonActor(UObject* WorldContextObject)
 {
 	UWorld* World = WorldContextObject->GetWorld();
 
@@ -93,6 +87,6 @@ ASkyManager * FSkyPlugin::GetSingletonActor(UObject* WorldContextObject)
 	//In the impossible case that we don't have an actor, spawn one!
 	return SpawnSingletonActor(World);
 }
-
+#undef LOCTEXT_NAMESPACE
+	
 IMPLEMENT_MODULE(FSkyPlugin, SkyPlugin)
-
